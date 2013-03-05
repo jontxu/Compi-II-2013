@@ -1,0 +1,263 @@
+; function (return int) factorial( n : int );
+	etiqi           factorial
+	parami          n
+	ponerbase
+; {
+	locali          flagret
+	valori          flagret
+	insi            0
+	:=
+; 	if (n == 1)
+	valord          n
+	insi            1
+	==
+	si-falso-ir-a   #ET0001
+; 		factorial := 1;
+	valori          factorial
+	insi            1
+	:=
+	valori          flagret
+	insi            1
+	:=
+; 	else
+	ir-a            #ET0002
+	etiq            #ET0001
+; 		factorial := n*factorial(n-1);
+	valori          factorial
+	valord          n
+	insi
+	valord          n
+	insi            1
+	-
+	llamar          factorial
+	*
+	:=
+	valori          flagret
+	insi            1
+	:=
+	etiq            #ET0002
+; }
+	valord          flagret
+	insi            0
+	==
+	si-cierto-ir-a  #EXE001
+	desapilar       4
+	cogerbase
+	ret             4
+	fin             factorial
+; function (return void) imprime( i, datoi : int; dator : real );
+	etiqv           imprime
+	parami          datoi
+	parami          i
+	paramr          dator
+	ponerbase
+; {
+; 	writeln( i );
+	valord          i
+	escribiri
+	escribirln
+; 	writeln( datoi );
+	valord          datoi
+	escribiri
+	escribirln
+; 	writeln( dator );
+	valord          dator
+	escribirr
+	escribirln
+; 	writeln( dator - datoi );
+	valord          dator
+	valord          datoi
+	intareal
+	-r
+	escribirr
+	escribirln
+; }
+	cogerbase
+	ret             16
+	fin             imprime
+; function (return real) potencia( base : real; exponente : int );
+	etiqr           potencia
+	paramr          base
+	parami          exponente
+	ponerbase
+; i : int;
+	locali          i
+; pot : real;
+	localr          pot
+; {
+	locali          flagret
+	valori          flagret
+	insi            0
+	:=
+; 	i:=1;
+	valori          i
+	insi            1
+	:=
+; 	pot:=1;
+	valori          pot
+	insi            1
+	intareal
+	:=r
+; 	while (i <= exponente) {
+	etiq            #ET0003
+	valord          i
+	valord          exponente
+	<=
+	si-falso-ir-a   #ET0004
+; 		pot:=base*pot;
+	valori          pot
+	valord          base
+	valord          pot
+	*r
+	:=r
+; 		i:=i+1;
+	valori          i
+	valord          i
+	insi            1
+	+
+	:=
+; 	}
+	ir-a            #ET0003
+	etiq            #ET0004
+; 	potencia := pot;
+	valori          potencia
+	valord          pot
+	:=r
+	valori          flagret
+	insi            1
+	:=
+; }
+	valord          flagret
+	insi            0
+	==
+	si-cierto-ir-a  #EXE001
+	desapilar       16
+	cogerbase
+	ret             12
+	fin             potencia
+; function (return real) stirling( n : real );
+	etiqr           stirling
+	paramr          n
+	ponerbase
+; pi, e : real;
+	localr          e
+	localr          pi
+; {
+	locali          flagret
+	valori          flagret
+	insi            0
+	:=
+; 	pi := 3.14159;
+	valori          pi
+	insr            3.14159
+	:=r
+; 	e := 2.72;
+	valori          e
+	insr            2.72
+	:=r
+; 	stirling := sqrt( 2*n*pi ) * potencia( n/e, round( n ) ) * (1+1/(12*n));
+	valori          stirling
+	insi            2
+	intareal
+	valord          n
+	*r
+	valord          pi
+	*r
+	sqrt
+	insr
+	valord          n
+	valord          e
+	/r
+	valord          n
+	round
+	llamar          potencia
+	*r
+	insi            1
+	intareal
+	insi            1
+	intareal
+	insi            12
+	intareal
+	valord          n
+	*r
+	/r
+	+r
+	*r
+	:=r
+	valori          flagret
+	insi            1
+	:=
+; }
+	valord          flagret
+	insi            0
+	==
+	si-cierto-ir-a  #EXE001
+	desapilar       20
+	cogerbase
+	ret             8
+	fin             stirling
+; function (return void) main;
+	inicio
+; numero, i : int;
+	locali          iiiiiiii
+	locali          numero
+; fact : int;
+	locali          fact
+; stirn : real;
+	localr          stirn
+; {
+; 	numero := readint();
+	valori          numero
+	escribirs       "Escriba un numero entero "
+	leeri
+	:=
+; 	i := 1;
+	valori          i
+	insi            1
+	:=
+; 	while (i <= numero) {
+	etiq            #ET0005
+	valord          i
+	valord          numero
+	<=
+	si-falso-ir-a   #ET0006
+; 		fact := factorial( i );
+	valori          fact
+	insi
+	valord          i
+	llamar          factorial
+	:=
+; 		stirn := i;
+	valori          stirn
+	valord          i
+	intareal
+	:=r
+; 		stirn := stirling( stirn );
+	valori          stirn
+	insr
+	valord          stirn
+	llamar          stirling
+	:=r
+; 		imprime( i, fact, stirn );
+	valord          i
+	valord          fact
+	valord          stirn
+	llamar          imprime
+; 		i := i + 1;
+	valori          i
+	valord          i
+	insi            1
+	+
+	:=
+; 	}
+	ir-a            #ET0005
+	etiq            #ET0006
+; }
+	fin
+	etiq            #EXE001
+	escribirln
+	escribirs       "Error EXE001  funcion no asigna valor de retorno"
+	escribirln
+	escribirs       "Programa terminado"
+	fin
+; Fin del programa

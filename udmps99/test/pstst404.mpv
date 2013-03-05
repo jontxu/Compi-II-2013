@@ -1,0 +1,104 @@
+;// psTST404.ajk
+;// Las torres de Hanoi, por supuesto
+;// @ JosuKa - 25 de febrero de 1994
+;int: numDiscos;
+    globali numDiscos
+;procedure Mover( n (int) in; desde, hasta, aux (char) in )
+    etiqv Mover
+    parami n
+    paramb desde
+    paramb hasta
+    paramb aux
+    ponerbase
+;{
+;    if n == 1 then {
+    valord n
+    insi 1
+    ==
+    si-falso-ir-a #ET0
+;        write( desde );
+    valord desde
+    escribirb
+;        writeln( hasta );
+    valord hasta
+    escribirb
+    escribirln
+;    }
+;    else {
+    ir-a #ET1
+    etiq #ET0
+;        Mover( n-1, desde, aux, hasta );
+    valord n
+    insi 1
+    -
+    valord desde
+    valord aux
+    valord hasta
+    llamar Mover
+;        write( desde );
+    valord desde
+    escribirb
+;        writeln( hasta );
+    valord hasta
+    escribirb
+    escribirln
+;        Mover( n-1, aux, hasta, desde );
+    valord n
+    insi 1
+    -
+    valord aux
+    valord hasta
+    valord desde
+    llamar Mover
+;    }
+    etiq #ET1
+;    return;
+    ir-a #Mover
+;}
+    ir-a #EXE001
+    etiq #Mover
+    cogerbase
+    ret 7
+    fin Mover
+;procedure main()
+    etiqv main
+    ponerbase
+;{
+;    numDiscos := readchar();
+    valori numDiscos
+    escribirs "Escriba un entero "
+    leeri
+    :=
+;    Mover( numDiscos, 'A', 'B', 'C' );
+    valord numDiscos
+    insb 'A'
+    insb 'B'
+    insb 'C'
+    llamar Mover
+;    return;
+    ir-a #main
+;}
+    ir-a #EXE001
+    etiq #main
+    cogerbase
+    ret
+    fin main
+    inicio
+    llamar main
+    fin
+    etiq #EXE001
+    escribirs "Error EXE001"
+    escribirln
+    escribirs "Procedimiento o funcion no retorna"
+    escribirln
+    escribirs "Programa terminado"
+    escribirln
+    fin
+    etiq #EXE002
+    escribirs "Error EXE002"
+    escribirln
+    escribirs "No existe caso valido"
+    escribirln
+    escribirs "Programa terminado"
+    escribirln
+    fin

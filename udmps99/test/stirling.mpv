@@ -1,0 +1,313 @@
+;int	e1, e2;
+
+	globali	e1		; datos globales
+	globali	e2
+
+;real	numr1;
+
+	globalr	numr1
+
+;function factorial( int n ) return (int)
+
+	etiqi		factorial	; función factorial
+	parami		n		; parámetro
+
+	ponerbase			; actualiza BASE
+
+;	if (n == 1)
+
+	valord		n
+	insi		1
+	==
+	si-falso-ir-a #elseif1
+
+;		return 1;
+
+	valori		factorial	; empieza asignación valor retorno
+	insi		1
+	:=				; termina asignación valor retorno
+	ir-a		#factorial	; va a secuencia de retorno
+
+;	else
+
+	ir-a		#finif1
+	etiq		#elseif1
+
+;		return n*factorial(n-1);
+
+	valori		factorial	; empieza asignación valor retorno
+	valord		n
+					; empieza llamada
+	insi				; espacio para valor de retorno
+	valord		n
+	insi		1
+	-				; parámetro (n-1) de llamada a factorial
+	llamar		factorial	; termina llamada
+	*
+	:=				; termina asignación valor retorno
+	ir-a		#factorial	; va a secuencia de retorno
+	etiq		#finif1
+
+;}
+
+	ir-a		#EXE001
+	etiq		#factorial	; empieza secuencia de retorno
+	cogerbase			; recuperar BASE
+	ret		4		; retorno desapilando parámetros
+	fin 		factorial	; aquí no debería llegar
+
+;function potencia( real base; int exponente ) return (real)
+
+	etiqr		potencia
+	paramr		base
+	parami		exponente
+
+	ponerbase
+
+;int	i;
+;real	pot;
+
+	locali		i		; datos locales aquí (después de ponerbase)
+	localr		pot
+
+;{
+;	i := 1;
+
+	valori		i
+	insi		1
+	:=
+
+;	pot := 1;
+
+	valori		pot
+	insi		1
+	intareal
+	:=r
+
+;	while (i <= exponente)
+
+	etiq		#iniWhile1
+	valord		i
+	valord		exponente
+	<=
+	si-falso-ir-a #finWhile1
+
+;		pot := base * pot;
+
+	valori		pot
+	valord		base
+	valord		pot
+	*r
+	:=r
+	ir-a		#iniWhile1
+	etiq		#finWhile1
+
+;	return( pot );
+
+	valori		potencia
+	valord		pot
+	:=r
+	ir-a		#potencia
+
+;}
+
+	ir-a		#EXE001
+	etiq		#potencia
+	desapilar	12		; saca locales de la pila; también podría ser
+					;	desapilarr
+					;	desapilari
+	cogerbase
+	ret		12
+	fin potencia
+
+;function stirling (real n) return (real)
+
+	etiqr		stirling
+	paramr		n
+	ponerbase
+
+;real pi, e;
+
+	localr		pi
+	localr		e
+
+;{
+;	pi := 3.14159;
+
+	valori		pi
+	insr		3.14159
+	:=r
+
+;	e := 2.72;
+
+	valori		e
+	insr		2.72
+	:=r
+
+;	return( sqrt( 2*n*pi ) * (n/e)^n * (1+1/(12*n)) );
+
+	valori		stirling	; empieza asignación valor retorno
+	insi		2
+	valord		n
+	cambiarir
+	intareal
+;	cambiarri			; no es necesario por la conmutatividad
+	*r
+	valord		pi
+	*r
+	sqrt
+	valord		n
+	valord		e
+	/r
+	valord		n
+	^r
+	*r
+	insi		1
+	insi		1
+	insi		12
+	valord		n
+	cambiarir
+	intareal
+;	cambiarri			; idem
+	*r
+	cambiarir
+	intareal
+	cambiarrr
+	/r
+	cambiarir
+	intareal
+;	cambiarri			; idem
+	+r
+	*r
+	:=r				; termina asignación valor de retorno
+	ir-a		#stirling
+
+;}
+
+	ir-a		#EXE001
+	etiq		#stirling	; empieza secuencia de retorno
+	desapilar	16		; o también:		desapilarr
+					;			desapilarr
+	cogerbase
+	ret		8
+	fin		stirling
+
+;procedure main ()
+
+	etiqv		main		; es otro procedimiento más
+	ponerbase			; sin parámetros
+
+;int	numero, i;
+;int	fact;
+;real	stirn;
+
+	locali		numero		; locales del programa principal
+	locali		i
+	locali		fact
+	localr		stirn
+
+;{
+;	numero := readint();
+
+	valori		numero
+; puede ponerse lo siguiente:
+;	escribirs	"Escribe un número entero "
+	leeri
+	:=
+
+;	i := 0;
+
+	valori		i
+	insi		0
+	:=
+
+;	while (i < numero ) {
+
+	etiq		#iniWhile2
+	valord		i
+	valord		numero
+	<
+	si-falso-ir-a #finWhile2
+
+;		fact := factorial( numero );
+
+	valori		fact
+	insi
+	valord		numero
+	llamar		factorial
+	:=
+
+;		stirn := stirling( numero );
+
+	valori		stirn
+	insr
+	valord		numero
+	intareal
+	llamar		stirling
+	:=r
+
+;		writeln( fact );
+
+	valord		fact
+	escribiri
+	escribirln
+
+;		writeln( stirn );
+
+	valord		stirn
+	escribirr
+	escribirln
+
+;		writeln( stirn - fact );
+
+	valord		stirn
+	valord		fact
+	intareal
+	-r
+	escribirr
+	escribirln
+
+;		i := i + 1;
+
+	valori		i
+	valord		i
+	insi		1
+	+
+	:=
+
+;	}
+
+	ir-a		#iniWhile2
+	etiq		#finWhile2
+
+;	return;
+
+	ir-a		#main
+
+;}
+
+	ir-a		#EXE001
+	etiq		#main
+	desapilar	36
+	cogerbase
+	ret
+	fin		main
+
+; empieza programa principal de máquina de pila
+
+	inicio				; aquí empezará la ejecución
+	llamar		main		; se llama al programa principal AJK
+	fin				; aquí se detiene la ejecución
+
+; esta parte también se considera programa principal
+; aunque parezca desconectada del resto
+
+	etiq		#EXE001
+	escribirln
+	escribirs	"Error EXE001"
+	escribirln
+	escribirs	"Procedimiento o funcion no retorna"
+	escribirln
+	escribirs	"Programa terminado"
+	fin
+

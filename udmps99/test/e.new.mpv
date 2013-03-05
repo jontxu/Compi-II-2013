@@ -1,0 +1,58 @@
+;// EJEMPLO.AJK
+;// Un programa en el lenguaje AJK
+;// (c) Andoni Eguiluz, JosuKa Diaz, Jorge Garcia 1998
+;// Variables globales
+;int num;
+    globali  num    
+;procedure main ()
+	etiqv main
+    ponerbase
+;int num;
+    locali  num
+    locali pp#ret
+;{
+;        
+;        case 'a' of
+    insb  97
+;                (4): num := readint();
+    copiarb
+    byteaint
+    insi  4
+    ==
+    si-falso-ir-a  #Et0
+    valori  num
+    escribirs "Escriba un numero entero "
+    leeri
+    := 
+    ir-a #Et1
+    etiq #Et0
+;                ('a'): num := 3 - 1;         
+    copiarb
+    byteaint
+    insb  97
+    byteaint
+    ==
+    si-falso-ir-a  #Et2
+    valori  num
+    insi  3
+    insi  1
+    -
+    := 
+    ir-a #Et1
+    etiq #Et2
+;        endcase;
+    etiq  #Et1
+    desapilarb
+;        writeln(num);
+    valord  num
+    escribiri
+    escribirln
+;}
+    fin
+;// Final del programa
+    etiq #EXE001
+    escribirln
+    escribirs "Procedimiento o funcion no retorna"
+    escribirln
+    escribirs "Programa terminado"
+    fin

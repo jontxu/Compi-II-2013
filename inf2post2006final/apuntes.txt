@@ -1,0 +1,15 @@
+Abrimos infija.h
+Los tokens tienen códigos diferente spara cada operand.
+Hay que editar el infijamain.c
+Se introducen las acciones semánticas dentro de las reglas.
+
+Una acción semántica puede:
+Obtener el atributo actual (atribACT) con el que estamos trabajando.
+Recoger la cima de la pila ¿o sacarla? (JosuKa duda)
+Puede generar código (escribir la operación)
+Hacer push a la pila semántica
+
+En el árbol generamos las acciones, que se van a ejecutar al final. Se ejecutarán en el orden:
+de esa forma, 128 - 72 * 5 se ejecutara de esta forma: 
+
+A6: printf(número)

@@ -1,0 +1,84 @@
+// Comentario: programa de prueba
+// (solo para comprobar la sintaxis)
+
+program prueba;
+var i;
+begin
+	i := 128;
+	writec "Valor de i: ";
+	write i;
+	writeln;
+	read i;
+	writec "Valor de i: ";
+	write i;
+	writeln;
+	if -12 <= +15 and not -13 <> +27 then i := -27;
+	;;;;
+	begin
+		;;;
+	end
+	if i <= 2 then i := 27;
+	else i := 28;
+	while i < 5 do ;
+	while i < 5 do i := 7;
+	while i < 5 do begin
+		i := 5;
+		write i;
+	end
+	do ; while i < 6;
+	do write i; while i < 8;
+	do begin
+		write i;
+		i := i + 7;
+	end while i < 10;
+	for i := i + 5 to i - 7 do ;
+	for i := (i + 5) * 22 to i - 7 do
+		write i;
+	for i := (i + 5) * 22 to i - 7 do begin
+		read i;
+		write i;
+	end
+	for i := i + 5 downto i - 7 do ;
+	for i := (i + 5) * 22 downto i - 7 do
+		write i;
+	for i := (i + 5) * 22 downto i - 7 do begin
+		read i;
+		write i;
+	end
+	for i := (i + 5) * 22 downto i - 7 do begin
+		;;;
+		if i <= 2 then i := 27;
+		else begin
+			while i < 5 do ;
+			while i < 5 do i := 7;
+			while i < 5 do begin
+				i := 5;
+				write i;
+				do ; while i < 6;
+				do write i; while i < 8;
+				do begin
+					write i;
+					i := i + 7;
+				end while i < 10;
+				for i := i + 5 to i - 7 do ;
+				for i := (i + 5) * 22 to i - 7 do
+					write i;
+				for i := (i + 5) * 22 to i - 7 do begin
+					read i;
+					write i;
+				end
+				for i := i + 5 downto i - 7 do ;
+				for i := (i + 5) * 22 downto i - 7 do
+					write i;
+				for i := (i + 5) * 22 downto i - 7 do begin
+					read i;
+					write i;
+				end
+			end
+			read i;
+		end
+	end
+end
+.
+
+// El programa tiene que acabar con un punto

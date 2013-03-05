@@ -1,0 +1,39 @@
+; comienzo del programa: declaraciones globales
+globali	i
+globali	res
+; comienzo del programa: instrucciones
+inicio
+escribirs	"Escriba un número: "
+valori	i
+leeri
+:=
+escribirs	"Valor de i: "
+valord	i
+escribiri
+escribirln
+escribirs	"Se va a calcular el factorial"
+escribirln
+valori	res
+insi	1
+:=
+etiq	#ET0
+valori	res
+valord	res
+valord	i
+*
+:=
+valori	i
+valord	i
+insi	1
+-
+:=
+valord	i
+insi	1
+>
+si-cierto-ir-a	#ET0
+escribirs	"Resultado: "
+valord	res
+escribiri
+escribirln
+fin
+; fin del programa

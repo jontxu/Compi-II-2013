@@ -1,0 +1,7 @@
+; probando
+globali	i
+globali	res
+inicio
+escribirs	"Esto funciona"
+fin
+

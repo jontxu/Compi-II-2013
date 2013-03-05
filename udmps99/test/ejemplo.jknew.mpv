@@ -1,0 +1,99 @@
+; function (return int) factorial( a: int );
+	etiqi           factorial
+	parami          a
+	ponerbase
+; {
+	locali          flagret
+	valori          flagret
+	insi            0
+	:=
+;     if ( a < 0 )
+	valord          a
+	insi            0
+	<
+	si-falso-ir-a   #ET0001
+;         factorial := 0;
+	valori          factorial
+	insi            0
+	:=
+	valori          flagret
+	insi            1
+	:=
+; //    else if ( a < 2 )
+;     else if ( (a == 0) || (a == 1) )
+	ir-a            #ET0002
+	etiq            #ET0001
+	valord          a
+	insi            0
+	==
+	valord          a
+	insi            1
+	==
+	or
+	si-falso-ir-a   #ET0003
+;         factorial := 1;
+	valori          factorial
+	insi            1
+	:=
+	valori          flagret
+	insi            1
+	:=
+;     else
+	ir-a            #ET0004
+	etiq            #ET0003
+;         factorial := a * factorial( a-1 );
+	valori          factorial
+	valord          a
+	insi
+	valord          a
+	insi            1
+	-
+	llamar          factorial
+	*
+	:=
+	valori          flagret
+	insi            1
+	:=
+	etiq            #ET0004
+	etiq            #ET0002
+; }
+	valord          flagret
+	insi            0
+	==
+	si-cierto-ir-a  #EXE001
+	desapilar       4
+	cogerbase
+	ret             4
+	fin             factorial
+; function (return void) main;
+	etiqi           main
+	ponerbase
+; i: int;
+	locali          i
+; {
+;     i := readint();
+	valori          i
+	escribirs       "Escriba un numero entero "
+	leeri
+	:=
+;     writeln( factorial( i ) );
+	insi
+	valord          i
+	llamar          factorial
+	escribiri
+	escribirln
+; }
+	desapilar       4
+	cogerbase
+	ret
+	fin             main
+	inicio
+	llamar          main
+	fin
+	etiq            #EXE001
+	escribirln
+	escribirs       "Error EXE001  funcion no asigna valor de retorno"
+	escribirln
+	escribirs       "Programa terminado"
+	fin
+; Fin del programa
