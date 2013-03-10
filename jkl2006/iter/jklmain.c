@@ -65,10 +65,18 @@ TTOKEN falsoyylex()
 #define A_WRTE1	2005
 #define A_WRTC1	2006
 #define A_WRTL1	2007
-#define A_NUM	2008
-#define A_ID	2009
+#define A_NUM		2008
+#define A_ID		2009
 #define A_ADIT1	2010
 #define A_ADIT2	2011
+#define A_ASIG1	2010
+#define A_ASIG2	2011
+#define A_W1		2012
+#define A_W2		2013
+#define A_W3		2014
+
+
+/* Resolver reglas de la 20 a la 40 */
 
 /* Reglas de la gramática; por orden desde 0 (acciones entre corchetes):
 
@@ -80,14 +88,14 @@ TTOKEN falsoyylex()
  5   lsent ->  lambda
  6          |  sent  lsent
  7   sent  ->  P_COMA
- 8          |  ID  ASIGN  expr  P_COMA
+ 8          |  ID  [A_ASIG1] ASIGN expr [A_ASIG2] P_COMA
  9          |  sentc
 10          |  PREAD  ID  [A_READ1]  P_COMA
 11          |  PWRITE  expr  [A_WRTE1]  P_COMA
 12          |  PWRITC  CAD  [A_WRTC1]  P_COMA
 13          |  PWRITL  [A_WRTL1]  P_COMA
 14          |  PIF  expr  PTHEN  sent  pelse
-15          |  PWHILE  expr  PDO  sent
+15          |  PWHILE  [A_W1] expr  PDO [A_W2] sent [A_W3]
 16          |  PDO  sent  PWHILE  expr  P_COMA
 17          |  PFOR  ID  ASIGN  expr  PTODO  expr  PDO  sent
 18   pelse ->  lambda
@@ -120,6 +128,15 @@ TTOKEN falsoyylex()
    * relleno a ceros para que haya hueco para insertar las acciones
 */
 
+/*
+ * etiq #INIT ? A_WHILE1
+ * cod <expr> 
+ * si_falso_ir_a #FIN ? A_WHILE2
+ * cod <sent>
+ * ir_a #INIT ? A_WHILE3
+ * etiq #FIN
+
+
 int reglasG[41][12] = {
 /*  0 */	 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 /*  1 */	,{ A_PROG3, PUNTO, V_SENTC, A_PROG2, V_DECL, P_COMA, A_PROG1, ID, PPROG, 0, 0, 0 }
@@ -129,14 +146,14 @@ int reglasG[41][12] = {
 /*  5 */	,{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 /*  6 */	,{ V_LSENT, V_SENT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 /*  7 */	,{ P_COMA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
-/*  8 */	,{ P_COMA, V_EXPR, ASIGN, ID, 0, 0, 0, 0, 0, 0, 0, 0 }
+/*  8 */	,{ P_COMA, A_ASIG2, V_EXPR, ASIGN, A_ASIG1, ID, 0, 0, 0, 0, 0, 0, }
 /*  9 */	,{ V_SENTC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 /* 10 */	,{ P_COMA, A_READ1, ID, PREAD, 0, 0, 0, 0, 0, 0, 0, 0 }
 /* 11 */	,{ P_COMA, A_WRTE1, V_EXPR, PWRITE, 0, 0, 0, 0, 0, 0, 0, 0 }
 /* 12 */	,{ P_COMA, A_WRTC1, CAD, PWRITC, 0, 0, 0, 0, 0, 0, 0, 0 }
 /* 13 */	,{ P_COMA, A_WRTL1, PWRITL, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 /* 14 */	,{ V_PELSE, V_SENT, PTHEN, V_EXPR, PIF, 0, 0, 0, 0, 0, 0, 0 }
-/* 15 */	,{ V_SENT, PDO, V_EXPR, PWHILE, 0, 0, 0, 0, 0, 0, 0, 0 }
+/* 15 */	,{ A_W3, V_SENT, A_W2 PDO, V_EXPR, A_W1, PWHILE, 0, 0, 0, 0, 0 }
 /* 16 */	,{ P_COMA, V_EXPR, PWHILE, V_SENT, PDO, 0, 0, 0, 0, 0, 0, 0 }
 /* 17 */	,{ V_SENT, PDO, V_EXPR, PTODO, V_EXPR, ASIGN, ID, PFOR, 0, 0, 0, 0 }
 /* 18 */	,{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
@@ -235,6 +252,17 @@ void gcC( char *coment )
 	fprintf( fichCod, "; %s\n", coment );
 }
 
+/* Las funciones de etiquetas */
+char * etiqNew() 
+{
+  return "#ETIQUETA";
+}
+
+void etiqFree() 
+{
+  
+}
+
 /* Las acciones semánticas */
 
 void accPROG1()
@@ -312,10 +340,62 @@ void accADIT2()
 	 return;
 }
 
+void accASIG1() 
+{
+  gc1("valori", atribACT.TCadena );
+  return;
+}
+
+void accASIG2() 
+{
+  gc0(":=");
+  return;
+}
+
+void accWHILE1()
+{
+  //pilaSem neutra 9
+  YYSTYPE eI, eF; //etiqInit, etiqFin;
+  eI.TCadena = etiqNew();
+  eF.TCadena = etiqNew();
+  gc1 ("etiq", eI.TCadena );
+  pilasem = pilaPUSH( pilaSem, eI );
+  pilasem = pilaPUSH( pilaSem, eF );
+  return;
+  //pilaSem +2 eF eI
+}
+
+void accWHILE2()
+{
+  //pilaSem +2 eF eI
+  YYSTYPE eF; //etiqInit, etiqFIn;
+  eF = pilaTOP( pilaSem );
+  gc1 ("si_falso_ir_a", eF.TCadena);
+  return;
+  //pilaSem +2 eF eI
+}
+
+void accWHILE3()
+{
+  //pilaSem neutra 9
+  YYSTYPE eI, eF; //etiqInit, etiqFIn;
+  eF = pilaTOP( pilaSem );
+  pilaSem = pilaPOP( pilaSem);
+  eI = pilaTOP( pilaSem );
+  gc1 ("ir_a", eI.TCadena );
+  gc1 ("etiq", eF.TCadena );
+  eI.etiqFree();
+  eF.etiqFree();
+  return;
+  //pilaSem +2 eF eI
+}
+
+
+
 /* El índice de acciones: esta sí que es buena */
 
-void (*tablaACC[12])() = {
-	accPROG1, accPROG2, accPROG3, accDECL1, accREAD1, accWRTE1, accWRTC1, accWRTL1, accNUM, accID, accADIT1, accADIT2
+void (*tablaACC[17])() = {
+	accPROG1, accPROG2, accPROG3, accDECL1, accREAD1, accWRTE1, accWRTC1, accWRTL1, accNUM, accID, accADIT1, accADIT2, accASIG1, accASIG2, accWHILE1, accWHILE2, accWHILE3
 };
 
 void compilar()
