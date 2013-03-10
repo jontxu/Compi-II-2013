@@ -1,6 +1,0 @@
-3 + 4 * 5
-
-insi 3. 3 ← atribACT.TCadena
-
-<Rando> → num A1 (se pone despues de num porque num es el atributo que necesitamos
-      | id A2 (en ese caso 3)
