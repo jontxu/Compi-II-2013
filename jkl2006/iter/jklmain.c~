@@ -400,7 +400,7 @@ void accIF1()
   YYSTYPE eE; //etiqElse
   eE.TCadena = etiqNew();
   gc1( "si-falso-ir-a", eE.TCadena );
-  pilaSem = pilaPUSH( pilaSem, eE );
+  pilasem = pilaPUSH( pilaSem, eE );
   return;
   //pilaSem +1 eE
 }
@@ -412,7 +412,7 @@ void accIF2()
   
   eE = pilaTOP( pilaSem );
   gc1("etiq", eE.TCadena );
-  pilaSem = pilaPOP( pilaSem );
+  pilasem = pilaPOP( pilaSem );
   etiqFree( eE.TCadena );
   return;
   //pilaSem +1 eE
@@ -428,7 +428,7 @@ void accIF3()
   eF.TCadena = etiqNew();
   gc1("ir-a", eE.TCadena );
   gc1("etiq", eF.TCadena );
-  pilaSem = pilaPUSH( pilaSem, eF );
+  pilasem = pilaPUSH( pilaSem, eF );
   etiqFree( eE.TCadena );
   return;
   //pilaSem +1 eE
@@ -441,7 +441,7 @@ void accIF2()
   
   eF = pilaTOP( pilaSem );
   gc1("etiq", eF.TCadena );
-  pilaSem = pilaPOP( pilaSem );
+  pilasem = pilaPOP( pilaSem );
   etiqFree( eF.TCadena );
   return;
   //pilaSem +1 eE
