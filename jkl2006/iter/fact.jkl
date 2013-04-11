@@ -4,7 +4,7 @@ program factorial;
 var i;
 var res;
 begin
-	writec "Escriba un número: ";
+	writec "Escriba un nÃºmero: ";
 	read i;
 	writec "Valor de i: ";
 	write i;

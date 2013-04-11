@@ -34,11 +34,11 @@ extern YYSTYPE atribANT;
 #define	OP_ADIT	264
 #define	OP_MULT	265
 #define	OP_NOT	266
-#define	NUM	267
-#define	ID	268
+#define	NUM		267
+#define	ID		268
 #define	ASIGN	269
 #define	PUNTO	270
-#define	CAD	271
+#define	CAD		271
 #define	PBEGIN	272
 #define	PEND	273
 #define	PPROG	274
@@ -47,11 +47,11 @@ extern YYSTYPE atribANT;
 #define	PWRITE	277
 #define	PWRITC	278
 #define	PWRITL	279
-#define	PIF	280
+#define	PIF		280
 #define	PTHEN	281
 #define	PELSE	282
 #define	PWHILE	283
-#define	PDO	284
+#define	PDO		284
 #define	PFOR	285
 #define	PTODO	286
 

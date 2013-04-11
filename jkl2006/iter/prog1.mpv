@@ -1,0 +1,37 @@
+; comienzo del programa: declaraciones globales
+globali	i
+; comienzo del programa: instrucciones
+inicio
+valori	i
+insi	128
+:=
+escribirs	"Valor de i: "
+valord	i
+escribiri
+escribirln
+valori	i
+leeri
+:=
+escribirs	"Valor de i: "
+valord	i
+escribiri
+escribirln
+insi	12
+insi	15
+insi	13
+insi	27
+si-falso-ir-a	 求
+valori	i
+insi	27
+:=
+etiq	 求
+valord	i
+insi	2
+si-falso-ir-a	@求
+valori	i
+insi	27
+:=
+etiq	@求
+valori	i
+insi	28
+:=

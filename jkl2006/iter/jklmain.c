@@ -139,7 +139,7 @@ TTOKEN falsoyylex()
  * cod <sent>
  * ir_a #INIT ? A_WHILE3
  * etiq #FIN
-
+ */
 
 int reglasG[41][12] = {
 /*  0 */	 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
@@ -156,8 +156,8 @@ int reglasG[41][12] = {
 /* 11 */	,{ P_COMA, A_WRTE1, V_EXPR, PWRITE, 0, 0, 0, 0, 0, 0, 0, 0 }
 /* 12 */	,{ P_COMA, A_WRTC1, CAD, PWRITC, 0, 0, 0, 0, 0, 0, 0, 0 }
 /* 13 */	,{ P_COMA, A_WRTL1, PWRITL, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
-/* 14 */	,{ V_PELSE, V_SENT, A_I1 PTHEN, V_EXPR, PIF, 0, 0, 0, 0, 0, 0 }
-/* 15 */	,{ A_W3, V_SENT, A_W2 PDO, V_EXPR, A_W1, PWHILE, 0, 0, 0, 0, 0 }
+/* 14 */	,{ V_PELSE, V_SENT, A_I1, PTHEN, V_EXPR, PIF, 0, 0, 0, 0, 0 }
+/* 15 */	,{ A_W3, V_SENT, A_W2, PDO, V_EXPR, A_W1, PWHILE, 0, 0, 0, 0, 0 }
 /* 16 */	,{ P_COMA, V_EXPR, PWHILE, V_SENT, PDO, 0, 0, 0, 0, 0, 0, 0 }
 /* 17 */	,{ V_SENT, PDO, V_EXPR, PTODO, V_EXPR, ASIGN, ID, PFOR, 0, 0, 0, 0 }
 /* 18 */	,{ A_I2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
@@ -173,7 +173,7 @@ int reglasG[41][12] = {
 /* 28 */	,{ V_ERELP, V_ARIT, OP_REL, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 /* 29 */	,{ V_ARITP, V_TERM, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 /* 30 */	,{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
-/* 31 */	,{ V_ARITP, A_ADIT2, V_TERM, A_ADIT1, OP_ADIT, 0, 0, 0, 0, 0, 0, 0, 0}
+/* 31 */	,{ V_ARITP, A_ADIT2, V_TERM, A_ADIT1, OP_ADIT, 0, 0, 0, 0, 0, 0, 0}
 /* 32 */	,{ V_TERMP, V_FACT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 /* 33 */	,{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 /* 34 */	,{ V_TERMP, V_FACT, OP_MULT, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
@@ -257,14 +257,21 @@ void gcC( char *coment )
 }
 
 /* Las funciones de etiquetas */
-char * etiqNew() 
+
+char* etiqNew(char* text) 
 {
-  return "#ETIQUETA";
+  char* etiq = malloc(sizeof(text) * (strlen(text) + 1));
+  int i;
+  for (i = 0; i < strlen(text); i++) {
+    etiq[i] = text[i];
+  }
+  return etiq;
 }
 
-void etiqFree() 
+void etiqFree(char* etiq) 
 {
-  
+  free(etiq);
+  return;
 }
 
 /* Las acciones semánticas */
@@ -360,11 +367,11 @@ void accWHILE1()
 {
   //pilaSem neutra 9
   YYSTYPE eI, eF; //etiqInit, etiqFin;
-  eI.TCadena = etiqNew();
-  eF.TCadena = etiqNew();
+  eI.TCadena = etiqNew("");
+  eF.TCadena = etiqNew("");
   gc1 ("etiq", eI.TCadena );
-  pilasem = pilaPUSH( pilaSem, eI );
-  pilasem = pilaPUSH( pilaSem, eF );
+  pilaSem = pilaPUSH( pilaSem, eI );
+  pilaSem = pilaPUSH( pilaSem, eF );
   return;
   //pilaSem +2 eF eI
 }
@@ -388,8 +395,8 @@ void accWHILE3()
   eI = pilaTOP( pilaSem );
   gc1 ("ir_a", eI.TCadena );
   gc1 ("etiq", eF.TCadena );
-  eI.etiqFree();
-  eF.etiqFree();
+  etiqFree(eI.TCadena);
+  etiqFree(eF.TCadena);
   return;
   //pilaSem +2 eF eI
 }
@@ -398,18 +405,17 @@ void accIF1()
 {
   //pilaSem neutra 0
   YYSTYPE eE; //etiqElse
-  eE.TCadena = etiqNew();
+  eE.TCadena = etiqNew("");
   gc1( "si-falso-ir-a", eE.TCadena );
   pilaSem = pilaPUSH( pilaSem, eE );
   return;
   //pilaSem +1 eE
 }
 
-void accIF2()
+void accIF3()
 {
   //pilaSem neutra 0
   YYSTYPE eE; //etiqElse
-  
   eE = pilaTOP( pilaSem );
   gc1("etiq", eE.TCadena );
   pilaSem = pilaPOP( pilaSem );
@@ -418,14 +424,14 @@ void accIF2()
   //pilaSem +1 eE
 }
 
-void accIF3()
+void accIF4()
 {
   //pilaSem neutra 0
   YYSTYPE eE, eF; //etiqElse
   
   eE = pilaTOP( pilaSem );
-  pilasem = pilaPOP( pilaSem );
-  eF.TCadena = etiqNew();
+  pilaSem = pilaPOP( pilaSem );
+  eF.TCadena = etiqNew("");
   gc1("ir-a", eE.TCadena );
   gc1("etiq", eF.TCadena );
   pilaSem = pilaPUSH( pilaSem, eF );
@@ -438,7 +444,6 @@ void accIF2()
 {
   //pilaSem neutra 0
   YYSTYPE eF; //etiqElse
-  
   eF = pilaTOP( pilaSem );
   gc1("etiq", eF.TCadena );
   pilaSem = pilaPOP( pilaSem );

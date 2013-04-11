@@ -3,7 +3,7 @@ globali	i
 globali	res
 ; comienzo del programa: instrucciones
 inicio
-escribirs	"Escriba un número: "
+escribirs	"Escriba un nÃºmero: "
 valori	i
 leeri
 :=
@@ -13,13 +13,24 @@ escribiri
 escribirln
 escribirs	"Se va a calcular el factorial"
 escribirln
+valori	res
 insi	1
+:=
+etiq	°'‹
 valord	i
 insi	1
+si_falso_ir_a	Ð'‹
+valori	res
 valord	res
 valord	i
+:=
+valori	i
 valord	i
 insi	1
+-
+:=
+ir_a	°'‹
+etiq	Ð'‹
 escribirs	"Resultado: "
 valord	res
 escribiri
